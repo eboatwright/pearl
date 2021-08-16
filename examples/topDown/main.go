@@ -30,7 +30,6 @@ type Transform struct {
 // return the name of the component
 func (t *Transform) ID() string { return "transform" }
 
-// Image component, has a pointer to an ebiten Image.
 type Image struct {
 	image *ebiten.Image
 }
@@ -69,18 +68,24 @@ func (is *ImageSystem) GetRequirements() []string {
 
 type PlayerSystem struct {}
 
+// This system utilizes the Update loop
 func (ps *PlayerSystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 	p := entity.GetComponent("player").(*Player)
 	t := entity.GetComponent("transform").(*Transform)
 
+	// Creates a Vector2 with X and Y being input directions
 	input := pearl.Vector2 {
 		float64(pearl.GetInputAxis([]ebiten.Key { ebiten.KeyA }, []ebiten.Key { ebiten.KeyD })),
 		float64(pearl.GetInputAxis([]ebiten.Key { ebiten.KeyW }, []ebiten.Key { ebiten.KeyS })),
 	}
+	// Normalize input (this keeps the player for going alot faster if going diagonal)
 	input.Normalize()
 
+	// Add the velocity multiplied by players speed
 	p.velocity.Add(pearl.Vector2Multiply(input, p.speed))
+	// Multiply friction to velocity
 	p.velocity.Multiply(p.friction)
+	// And finally add velocity (floored) to position (flooring velocity helps fix jittering)
 	t.position.Add(pearl.Vector2Floor(p.velocity))
 }
 
