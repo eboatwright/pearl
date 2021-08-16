@@ -1,3 +1,8 @@
+// Hello! :D This is a simple top down player example for pearl!
+// Also, I just wanted to mention. That if you import "github.com/eboatwright/pearl/builtInComponentsNSystems"
+// You don't have to create components and systems like Transform, Image, ImageRenderer and things like that. :)
+
+
 package main
 
 
@@ -26,12 +31,14 @@ var (
 // Transform component, has a pearl Vector2 as a position
 type Transform struct {
 	position pearl.Vector2
+	scale    pearl.Vector2
 }
 // return the name of the component
 func (t *Transform) ID() string { return "transform" }
 
 type Image struct {
-	image *ebiten.Image
+	image     *ebiten.Image
+	size      pearl.Vector2
 }
 func (t *Image) ID() string { return "image" }
 
@@ -44,25 +51,38 @@ func (p *Player) ID() string { return "player" }
 
 
 // This is a system
-type ImageSystem struct {}
+type ImageRenderer struct {}
 
 // Use this for updating entities
-func (is *ImageSystem) Update(entity *pearl.Entity, scene *pearl.Scene) {}
+func (ir *ImageRenderer) Update(entity *pearl.Entity, scene *pearl.Scene) {}
 
 // Use this for drawing entities
-func (is *ImageSystem) Draw(entity *pearl.Entity, scene *pearl.Scene, screen *ebiten.Image, options *ebiten.DrawImageOptions) {
+func (ir *ImageRenderer) Draw(entity *pearl.Entity, scene *pearl.Scene, screen *ebiten.Image, options *ebiten.DrawImageOptions) {
 	// Get the components
     t := entity.GetComponent("transform").(*Transform)
     i := entity.GetComponent("image").(*Image)
 
-	// This just sets the options.GeoM to be the position specified
-    pearl.SetDrawPosition(options, t.position)
-	// Draw the image onto the ebiten screen
-    screen.DrawImage(i.image, options)
+	// Reset options
+	options.GeoM.Reset()
+	// Scale to transform's scale
+	options.GeoM.Scale(t.scale.X, t.scale.Y)
+	// Move to center of image
+	options.GeoM.Translate(
+		-(i.size.X * t.scale.X) / 2,
+		-(i.size.Y * t.scale.Y) / 2,
+	)
+	// And finally move to transform's position
+	options.GeoM.Translate(
+		t.position.X,
+		t.position.Y,
+	)
+
+	// Draw sub image of the source position of image
+	screen.DrawImage(i.image, options)
 }
 
 // Return the components you need for this system
-func (is *ImageSystem) GetRequirements() []string {
+func (ir *ImageRenderer) GetRequirements() []string {
     return []string { "transform", "image" }
 }
 
@@ -80,6 +100,13 @@ func (ps *PlayerSystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 	}
 	// Normalize input (this keeps the player for going alot faster if going diagonal)
 	input.Normalize()
+
+	// Scale transform's scale to face the direction the player's moving
+	if input.X < 0 {
+		t.scale.X = -1
+	} else if input.X > 0 {
+		t.scale.X = 1
+	}
 
 	// Add the velocity multiplied by players speed
 	p.velocity.Add(pearl.Vector2Multiply(input, p.speed))
@@ -103,11 +130,12 @@ func onStart() {
 	pearl.LoadScene(gameScene)
 
 	// Create an entity
-	player := &pearl.Entity{ ID: "test" }
+	player := &pearl.Entity{ ID: "player" }
 	// Add components
 	player.AddComponents([]pearl.IComponent {
 		&Transform {
 			position: pearl.Vector2 { 50, 50 },
+			scale:    pearl.VONE,
 		},
 		&Player {
 			speed:    0.8,
@@ -115,6 +143,7 @@ func onStart() {
 		},
 		&Image {
 			image: pearl.LoadImage("data/img/wizard.png"),
+			size:  pearl.Vector2 { 16, 16 },
 		},
 	})
 
@@ -123,10 +152,10 @@ func onStart() {
 		player,
 	})
 
-	// Add an Image System to game scene
+	// Add systems to game scene
 	gameScene.AddSystems([]pearl.ISystem {
 		&PlayerSystem {  },
-		&ImageSystem {  },
+		&ImageRenderer {  },
 	})
 }
 
