@@ -11,4 +11,5 @@ go get github.com/eboatwright/pearl@vX.X.X
 
 # Documentation
  API Reference: pkg.go.dev/github.com/eboatwright/pearl<br />
- Tutorials soon! :smile:
+ Examples: Check examples folder in repositody :smile:<br />
+ Tutorials and Wiki page soon! :smile:
