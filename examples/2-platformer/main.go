@@ -68,12 +68,13 @@ func onStart() {
 			CollisionType: bicas.LevelCollision,
 		},
 		&bicas.BoxCollider {
-			Size:   pearl.Vector2 { 16, 16 },
-			Offset: pearl.Vector2 { 0, 0 },
+			Size:   pearl.Vector2 { 8, 14 },
+			Offset: pearl.Vector2 { 4, 2 },
 		},
 		&Player {
 			MoveSpeed:  0.8,
 			JumpHeight: -8,
+			JumpCutoff: 0.5,
 		},
 	})
 

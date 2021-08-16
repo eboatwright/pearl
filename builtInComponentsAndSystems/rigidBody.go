@@ -64,13 +64,13 @@ func (rbs *RigidbodySystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 							if rb.Gravity.Y < 0 {
 								rb.Grounded = rb.CoyoteTime
 							}
-							t.Position.Y = tileT.Position.Y + tileBc.Size.Y
+							t.Position.Y = tileT.Position.Y + tileBc.Size.Y - bc.Offset.Y
 						}
 						if rb.Velocity.Y > 0 {
 							if rb.Gravity.Y > 0 {
 								rb.Grounded = rb.CoyoteTime
 							}
-							t.Position.Y = tileT.Position.Y - bc.Size.Y
+							t.Position.Y = tileT.Position.Y - bc.Size.Y - bc.Offset.Y
 						}
 						rb.Velocity.Y = 0
 					}
@@ -91,13 +91,13 @@ func (rbs *RigidbodySystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 							if rb.Gravity.X < 0 {
 								rb.Grounded = rb.CoyoteTime
 							}
-							t.Position.X = tileT.Position.X + tileBc.Size.X
+							t.Position.X = tileT.Position.X + tileBc.Size.X - bc.Offset.X
 						}
 						if rb.Velocity.X > 0 {
 							if rb.Gravity.X > 0 {
 								rb.Grounded = rb.CoyoteTime
 							}
-							t.Position.X = tileT.Position.X - bc.Size.X
+							t.Position.X = tileT.Position.X - bc.Size.X - bc.Offset.X
 						}
 						rb.Velocity.X = 0
 					}
