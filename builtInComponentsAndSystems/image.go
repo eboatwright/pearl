@@ -28,10 +28,14 @@ func (ir *ImageRenderer) Draw(entity *pearl.Entity, scene *pearl.Scene, screen *
 
 	options.GeoM.Reset()
 	options.GeoM.Scale(t.Scale.X, t.Scale.Y)
-	options.GeoM.Translate(
-		-(i.Size.X * t.Scale.X) / 2,
-		-(i.Size.Y * t.Scale.Y) / 2,
-	)
+	
+	if t.Scale.X < 0 {
+		options.GeoM.Translate(-(i.Size.X * t.Scale.X), 0)
+	}
+	if t.Scale.Y < 0 {
+		options.GeoM.Translate(0, -(i.Size.Y * t.Scale.Y))
+	}
+
 	options.GeoM.Rotate(t.Rotation * math.Pi / 180)
 	options.GeoM.Translate(
 		t.Position.X,
