@@ -55,13 +55,13 @@ func ToggleFPS() {
 
 // Returns screen size as Vector2
 func GetScreenSize() Vector2 {
-	return Vector2 { g.windowWidth / g.screenScale, g.windowHeight / g.screenScale }
+	return Vector2 { float64(g.windowWidth / g.screenScale), float64(g.windowHeight / g.screenScale) }
 }
 
-
+var g *game
 // Call this to start Pearl! :D
 func Start(windowWidth, windowHeight, screenScale int, windowTitle string, backgroundColor color.Color, onStart function) {
-	g := &game {
+	g = &game {
 		windowWidth:     windowWidth,
 		windowHeight:    windowHeight,
 		screenScale:     screenScale,

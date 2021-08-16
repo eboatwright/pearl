@@ -58,7 +58,7 @@ func (e *Entity) GetComponentInParent(id string) IComponent {
 }
 
 // Returns a slice of components with id specified found in the parent. Returns empty list if none found
-func (e *Entity) GetComponentsInParent(id string) IComponent {
+func (e *Entity) GetComponentsInParent(id string) []IComponent {
 	return e.parent.GetComponents(id)
 }
 
@@ -73,7 +73,7 @@ func (e *Entity) GetComponentInChildren(id string) IComponent {
 }
 
 // Returns slice of all components with id found in each children, returns empty slice if none found
-func (e *Entity) GetComponentsInChildren(id string) IComponent {
+func (e *Entity) GetComponentsInChildren(id string) []IComponent {
 	found := []IComponent {}
 	for _, child := range e.children {
 		for _, component := range child.components {
