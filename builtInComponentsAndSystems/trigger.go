@@ -22,8 +22,8 @@ func (ts *TriggerSystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 	otherColliders := scene.FindEntitiesOfType("boxCollider")
 	trigger := entity.GetComponent("trigger").(*Trigger)
 	for _, other := range otherColliders {
-		if EntitesOverlap(entity, other) {
-			trigger.onTrigger()
+		if pearl.EntitesOverlap(entity, other) {
+			trigger.onTrigger(other)
 		}
 	}
 }
