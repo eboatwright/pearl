@@ -38,6 +38,7 @@ func (rbs *RigidbodySystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 		rb.Velocity.Add(rb.Gravity)
 		t.Position.Add(pearl.Vector2Floor(rb.Velocity))
 	case LevelCollision:
+		if scene.FindComponent("level") == nil { return }
 		level := scene.FindComponent("level").(*Level)
 
 		tile := &pearl.Entity { ID: "tile" }
