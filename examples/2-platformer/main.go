@@ -61,6 +61,18 @@ func onStart() {
 			Image: pearl.LoadImage("data/img/wizard.png"),
 			Size:  pearl.Vector2 { 16, 16 },
 		},
+		&bicas.Animator {
+			Animations: []bicas.Animation {
+				bicas.Animation {
+					Frames: []int { 0 },
+					Speed:  1,
+				},
+				bicas.Animation {
+					Frames: []int { 0, 1 },
+					Speed:  8,
+				},
+			},
+		},
 		&bicas.Rigidbody {
 			Friction:      pearl.Vector2 { 0.8, 1 },
 			Gravity:       pearl.Vector2 { 0, 0.4 },
@@ -89,6 +101,7 @@ func onStart() {
 
 		&bicas.LevelRenderer {  },
 		&bicas.ImageRenderer {  },
+		&bicas.AnimationSystem {  },
 	})
 }
 

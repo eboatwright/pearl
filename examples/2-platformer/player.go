@@ -22,6 +22,7 @@ func (ps *PlayerSystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 	t := entity.GetComponent("transform").(*bicas.Transform)
 	rb := entity.GetComponent("rigidbody").(*bicas.Rigidbody)
 	p := entity.GetComponent("player").(*Player)
+	anim := entity.GetComponent("animator").(*bicas.Animator)
 
 	xInput := pearl.GetInputAxis(
 		[]ebiten.Key { ebiten.KeyA, ebiten.KeyLeft },
@@ -30,6 +31,9 @@ func (ps *PlayerSystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 
 	if xInput != 0 {
 		t.Scale.X = float64(xInput)
+		anim.ChangeAnimation(1)
+	} else {
+		anim.ChangeAnimation(0)
 	}
 
 	rb.Velocity.X += float64(xInput) * p.MoveSpeed
@@ -46,5 +50,5 @@ func (ps *PlayerSystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 func (ps *PlayerSystem) Draw(entity *pearl.Entity, scene *pearl.Scene, screen *ebiten.Image, options *ebiten.DrawImageOptions) {}
 
 func (ps *PlayerSystem) GetRequirements() []string {
-	return []string { "transform", "rigidbody", "player" }
+	return []string { "transform", "rigidbody", "animator", "player" }
 }
