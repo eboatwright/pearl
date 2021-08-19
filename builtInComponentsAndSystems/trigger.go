@@ -7,11 +7,11 @@ import (
 )
 
 
-type onTriggerFunction func(other *pearl.Entity)
+type onTriggerFunction func(self, other *pearl.Entity)
 
 
 type Trigger struct {
-	onTrigger onTriggerFunction
+	OnTrigger onTriggerFunction
 }
 func (t *Trigger) ID() string { return "trigger" }
 
@@ -23,7 +23,7 @@ func (ts *TriggerSystem) Update(entity *pearl.Entity, scene *pearl.Scene) {
 	trigger := entity.GetComponent("trigger").(*Trigger)
 	for _, other := range otherColliders {
 		if EntitiesOverlap(entity, other) {
-			trigger.onTrigger(other)
+			trigger.OnTrigger(entity, other)
 		}
 	}
 }
