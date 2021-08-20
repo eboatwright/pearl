@@ -62,7 +62,7 @@ func GetScreenSize() Vector2 {
 
 // Returns the time since the program started
 func TimeSinceStart() float64 {
-	return float64(time.Since(g.timeStart))
+	return float64(time.Since(g.timeStart).Milliseconds())
 }
 
 var g *game

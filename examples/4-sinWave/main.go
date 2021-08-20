@@ -22,7 +22,7 @@ func main() {
 				Color: pearl.RGBA(255, 255, 255, 255),
 			},
 			&bicas.SinWave {
-				Speed:    1,
+				Speed:    0.01,
 				Distance: 50,
 			},
 		})
