@@ -41,10 +41,12 @@ func (ir *ImageRenderer) Draw(entity *pearl.Entity, scene *pearl.Scene, screen *
 	parent := entity.GetParent()
 	if parent != nil {
 		parentT := parent.GetComponent("transform").(*bicas.Transform)
-		options.GeoM.Translate(
-			parentT.Position.X,
-			parentT.Position.Y,
-		)
+		if parentT != nil {
+			options.GeoM.Translate(
+				parentT.Position.X,
+				parentT.Position.Y,
+			)
+		}
 	}
 	options.GeoM.Translate(
 		t.Position.X,
