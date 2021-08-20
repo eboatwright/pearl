@@ -61,6 +61,13 @@ func (ir *ImageRenderer) Draw(entity *pearl.Entity, scene *pearl.Scene, screen *
 		t.Position.X,
 		t.Position.Y,
 	)
+	if entity.HasComponent("sinWave") {
+		sw := entity.GetComponent("sinWave").(*SinWave)
+		options.GeoM.Translate(
+			0,
+			sw.GetSin(),
+		)
+	}
 
 	screen.DrawImage(i.Image.SubImage(image.Rect(int(i.SourcePos.X), int(i.SourcePos.Y), int(i.SourcePos.X + i.Size.X), int(i.SourcePos.Y + i.Size.Y))).(*ebiten.Image), options)
 }

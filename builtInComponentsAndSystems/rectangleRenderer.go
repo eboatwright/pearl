@@ -25,12 +25,22 @@ func (rrs *RectangleRendererSystem) Draw(entity *pearl.Entity, scene *pearl.Scen
 	t := entity.GetComponent("transform").(*Transform)
 	rr := entity.GetComponent("rectangleRenderer").(*RectangleRenderer)
 	
-	ebitenutil.DrawRect(
-		screen,
-		t.Position.X, t.Position.Y,
-		t.Scale.X, t.Scale.Y,
-		rr.Color,
-	)
+	if entity.HasComponent("sinWave") {
+		sw := entity.GetComponent("sinWave").(*SinWave)
+		ebitenutil.DrawRect(
+			screen,
+			t.Position.X, t.Position.Y + sw.GetSin(),
+			t.Scale.X, t.Scale.Y,
+			rr.Color,
+		)
+	} else {
+		ebitenutil.DrawRect(
+			screen,
+			t.Position.X, t.Position.Y,
+			t.Scale.X, t.Scale.Y,
+			rr.Color,
+		)
+	}
 }
 
 func (rrs *RectangleRendererSystem) GetRequirements() []string {

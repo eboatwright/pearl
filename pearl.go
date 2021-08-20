@@ -7,6 +7,7 @@ import (
 
 	"image/color"
 	"fmt"
+	"time"
 )
 
 
@@ -20,6 +21,7 @@ type game struct {
 	backgroundColor color.Color
 	currentScene    *Scene
 	showFPS         bool
+	timeStart       time.Time
 }
 
 func (g *game) Update() error {
@@ -58,6 +60,11 @@ func GetScreenSize() Vector2 {
 	return Vector2 { float64(g.windowWidth / g.screenScale), float64(g.windowHeight / g.screenScale) }
 }
 
+// Returns the time since the program started
+func TimeSinceStart() float64 {
+	return float64(time.Since(g.timeStart))
+}
+
 var g *game
 // Call this to start Pearl! :D
 func Start(windowWidth, windowHeight, screenScale int, windowTitle string, backgroundColor color.Color, onStart function) {
@@ -67,6 +74,7 @@ func Start(windowWidth, windowHeight, screenScale int, windowTitle string, backg
 		screenScale:     screenScale,
 		windowTitle:     windowTitle,
 		backgroundColor: backgroundColor,
+		timeStart:       time.Now(),
 	}
 
 	ebiten.SetWindowSize(g.windowWidth, g.windowHeight)
