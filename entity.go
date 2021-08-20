@@ -120,6 +120,7 @@ func (e *Entity) HasTag(tag string) bool {
 // Sets Entity's parent variable
 func (e *Entity) SetParent(entity *Entity) {
 	e.parent = entity
+	entity.AddChild(e)
 }
 
 // Returns Entity's parent
@@ -141,6 +142,7 @@ func (e *Entity) AddChildren(entities []*Entity) {
 
 // Removes Entity at index from child list, but does nothing if entity specified isn't a child of entity
 func (e *Entity) RemoveChildAt(index int) {
+	e.children[index].parent = nil
 	e.children = append(e.children[:index], e.children[index + 1:]...)
 }
 
