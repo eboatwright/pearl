@@ -4,6 +4,7 @@ package pearl
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/audio"
 
 	"image/color"
 	"fmt"
@@ -22,6 +23,7 @@ type game struct {
 	currentScene    *Scene
 	showFPS         bool
 	timeStart       time.Time
+	audioContext    *audio.Context
 }
 
 func (g *game) Update() error {
@@ -75,6 +77,7 @@ func Start(windowWidth, windowHeight, screenScale int, windowTitle string, backg
 		windowTitle:     windowTitle,
 		backgroundColor: backgroundColor,
 		timeStart:       time.Now(),
+		audioContext:    audio.NewContext(48000),
 	}
 
 	ebiten.SetWindowSize(g.windowWidth, g.windowHeight)
