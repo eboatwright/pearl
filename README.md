@@ -1,6 +1,5 @@
 # Pearl
  A Lightweight Cross-Platform ECSS Framework for Ebiten and Go!
- Trello: https://trello.com/b/bprGiIi1/pearl
 
 # Installation
 ```
